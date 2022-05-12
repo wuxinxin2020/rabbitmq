@@ -13,6 +13,7 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
+        prefetch: 10
         retry:
           #开启重试
           enabled: true

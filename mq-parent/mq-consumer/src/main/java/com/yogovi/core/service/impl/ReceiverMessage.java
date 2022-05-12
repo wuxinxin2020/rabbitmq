@@ -19,8 +19,8 @@ public class ReceiverMessage {
     @RabbitHandler
     public void processHandler(String msg, Channel channel, Message message) throws IOException {
         try {
+        	//TODO 具体业务        
             log.info("收到消息：{}", msg);
-            //TODO 具体业务                       
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }  catch (Exception e) {           
             if (message.getMessageProperties().getRedelivered()) {               

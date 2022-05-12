@@ -42,6 +42,7 @@ public class MessageServiceImpl implements MessageService {
         rabbitTemplate.convertAndSend(exchange, routingKey, msg,
                 message -> {
                     message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    //message.getMessageProperties().setExpiration("100000");
                     return message;
                 },
                 new CorrelationData(UUID.randomUUID().toString()));
