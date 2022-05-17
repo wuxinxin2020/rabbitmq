@@ -18,15 +18,23 @@ public class TestHello {
 	@Autowired
 	private MessageService messageService;
 	
+//	@Test
+//	public void test() {
+////		for (;;) {
+////			try {
+////				TimeUnit.MILLISECONDS.sleep(100);
+////			} catch (InterruptedException e) {
+////				e.printStackTrace();
+////			}
+////			messageService.sendMessage("TEST_TOPIC_EXCHANGE", "one", UUID.randomUUID().toString());
+////		}
+//		messageService.sendMessage("TEST_TOPIC_EXCHANGE", "one", UUID.randomUUID().toString());
+//	}
+	
 	@Test
-	public void test() {
-		for (;;) {
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			messageService.sendMessage("TEST_TOPIC_EXCHANGE", "one", UUID.randomUUID().toString());
-		}
+	public void test1() {
+		messageService.sendMessage("unpay_order_exchange", "unpay_order.001", UUID.randomUUID().toString());
 	}
+	
+	
 }

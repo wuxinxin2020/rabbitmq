@@ -13,14 +13,32 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@RabbitListener(queues = "TEST_TOPIC_QUEUE_A")
 public class ReceiverMessage {
     
-    @RabbitHandler
+    //@RabbitHandler
+    @RabbitListener(queues = "TEST_TOPIC_QUEUE_A")
     public void processHandler(String msg, Channel channel, Message message) throws IOException {
         try {
         	//TODO 具体业务        
             log.info("收到消息：{}", msg);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        }  catch (Exception e) {           
+            if (message.getMessageProperties().getRedelivered()) {               
+                log.error("消息已重复处理失败,拒绝再次接收...");
+                channel.basicReject(message.getMessageProperties().getDeliveryTag(), false); // 拒绝消息
+            } else {            
+                log.error("消息即将再次返回队列处理...");
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true); 
+            }
+        }
+    }
+    
+    //@RabbitHandler
+    @RabbitListener(queues = "unpay_order_dead")
+    public void processHandler1(String msg, Channel channel, Message message) throws IOException {
+        try {
+        	//TODO 具体业务        
+            log.info("收到delay消息：{}", msg);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }  catch (Exception e) {           
             if (message.getMessageProperties().getRedelivered()) {               
